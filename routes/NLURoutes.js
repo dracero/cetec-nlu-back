@@ -15,7 +15,8 @@ const checkAuthenticated = (req, res, next) => {
   if (res.locals.authenticated) {
     return next()
   }
-  res.status(401);
+  
+  res.status(401).end();
 }
 
 router.all('*', (req, res, next) => {
