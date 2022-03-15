@@ -129,7 +129,6 @@ app.get(
         expiresIn: 60 * 60 * 24 // equivalente a 24 horas
       })
       res.cookie('token', token)
-      res.cookie('isLoged', "true")
     }      
     res.redirect('http://localhost:3000/')
   }

@@ -121,18 +121,18 @@ class BaseDeDatos {
                 text = null;            
             }
             
-            let name_is_empty = (name == null);
-            let text_is_empty = (text == null);
+            let name_is_empty = (name === null);
+            let text_is_empty = (text === null);
             
             if (name_is_empty && text_is_empty) {
                 console.log("Error: nombre y texto vacío.");
                 throw new ErrorFieldIsEmpty("nombre y texto");
             }
             
-            let valores = await this.get_nlu_structure_name(name);
+            let structure = await this.get_nlu_structure_name(name);
             
-            if (valores){
-                if (valores.name == name & valores.text == text){
+            if (structure){
+                if (structure.name == name && structure.text == text){
                     console.log("Error: " + name + " ya existe en la base de datos.");
                     throw new ErrorNameAlreadyExists();
                 }

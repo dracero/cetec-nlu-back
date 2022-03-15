@@ -60,7 +60,7 @@ const delete_nlu_structure = async (req, res, next) => {
 
 const logout = (req, res, next) => {
     req.logOut()
-    res.cookie('isLoged', "false")
+    res.clearCookie("token");
     res.redirect("http://localhost:3000/")
     console.log(`-------> User Logged out`)
 }
