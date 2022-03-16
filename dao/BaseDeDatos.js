@@ -130,13 +130,15 @@ class BaseDeDatos {
             }
             
             let structure = await this.get_nlu_structure_name(name);
-            
+
+            /*
             if (structure){
                 if (structure.name == name && structure.text == text){
                     console.log("Error: " + name + " ya existe en la base de datos.");
                     throw new ErrorNameAlreadyExists();
                 }
             }
+            */
 
             const obj = JSON.stringify({name: name, text: text});
             let nlu_structure = new this.NLUModel(JSON.parse(obj));
