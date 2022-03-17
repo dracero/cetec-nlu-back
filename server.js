@@ -22,9 +22,9 @@ import MongoStore from 'connect-mongo';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import './config/database.js';
-//import docente from './models/users.js';
-import Strategy from 'passport-google-oauth2';
-const GoogleStrategy = Strategy;
+import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
+import { Strategy as JWTstrategy } from 'passport-jwt';
+import { ExtractJwt } from 'passport-jwt';
 
 // tuve que agregar esto para que no salte la warning de abajo:
 // DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead.
@@ -58,6 +58,13 @@ const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET
 const authUser = (request, accessToken, refreshToken, profile, done) => {
   return done(null, profile);
 }
+
+//set the JWT options
+const jwtOptions ={} 
+//jwtOptions.jwtFromRequest = ExtractJwt.fromUrlQueryParameter('secret_token'); 
+jwtOptions.jwtFromRequest=ExtractJwt.fromExtractors([ExtractJwt.fromUrlQueryParameter("secret_token"), ExtractJwt.fromHeader("secret_token"), ExtractJwt.fromAuthHeaderAsBearerToken()]);
+//here we have defined all possible extractors in an array
+jwtOptions.secretOrKey = process.env.JWT_SECRET_KEY;
 
 //Use "GoogleStrategy" as the Authentication Strategy
 passport.use(new GoogleStrategy({
@@ -125,14 +132,26 @@ app.get(
   passport.authenticate("google"),
   function (req, res) {
     if (req.user) { 
-       const token = jwt.sign({id: req.user.email}, 'top_secret', {
-        expiresIn: 60 * 60 * 24 // equivalente a 24 horas
-      })
-      res.cookie('token', token)
+      const token = jwt.sign({id:req.user.email}, process.env.JWT_SECRET_KEY, {expiresIn: process.env.TOKEN_KEEP_ALIVE}); 
+      res.cookie('token', token)  
     }      
     res.redirect('http://localhost:3000/')
   }
 );
+
+//use passport strategy whe defined token wrote id, so the token.id should be retrieved 
+passport.use(new JWTstrategy( 
+  jwtOptions,
+  async (token, done) => {
+    try {
+      return done(null, token.id);
+    } catch (error) {
+      done(error);
+    }
+  }
+)
+);
+
 //Here is the secrete of all, passing the value in res.locals variable
 app.use((req, res, next) => {
   res.locals.authenticated = req.isAuthenticated();
