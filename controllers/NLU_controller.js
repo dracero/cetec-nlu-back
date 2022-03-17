@@ -37,6 +37,9 @@ const add_nlu_structure = async (req, res, next) => {
 const put_nlu_structure = async (req, res, next) => {
 
     try {
+        //Imprime el mail de quien edita:
+        console.log(req.user);
+
         const nlu_structure = await baseDeDatos.put_nlu_structure(req.params.id, req.query.name, req.query.text);
         res.send(nlu_structure);
     } catch (error) {
