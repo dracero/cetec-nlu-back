@@ -1,4 +1,4 @@
-import dotenv  from "dotenv"
+import dotenv  from "dotenv";
 import path from 'path';
 import {fileURLToPath} from 'url';
 const __filename = fileURLToPath(import.meta.url);
@@ -26,9 +26,12 @@ import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
 import { Strategy as JWTstrategy } from 'passport-jwt';
 import { ExtractJwt } from 'passport-jwt';
 
+import logger from "./logger.js";
+
 // tuve que agregar esto para que no salte la warning de abajo:
 // DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead.
 mongoose.set('useCreateIndex', true);
+//mongoose.set('useUnifiedTopology', true);
 
 const app = express();
 app.use(cookieParser());
@@ -133,7 +136,12 @@ app.get(
   function (req, res) {
     if (req.user) { 
       const token = jwt.sign({id:req.user.email}, process.env.JWT_SECRET_KEY, {expiresIn: process.env.TOKEN_KEEP_ALIVE}); 
-      res.cookie('token', token)  
+      res.cookie('token', token);
+      
+      logger.log({
+        level: 'info',
+        message: req.user.email + " ha iniciado sesión."
+    });  
     }      
     res.redirect('http://localhost:3000/')
   }

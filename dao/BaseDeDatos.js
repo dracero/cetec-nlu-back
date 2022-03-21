@@ -1,4 +1,4 @@
-import NLU from "../models/NLU.js"
+import NLU from "../models/NLU.js";
 
 class ErrorNameAlreadyExists extends Error {
     
@@ -30,8 +30,6 @@ class ErrorIdDoesNotExist extends Error {
     }
 }
 
-
-
 class BaseDeDatos {
     
     constructor(){
@@ -57,6 +55,7 @@ class BaseDeDatos {
 
     
     async nlu_structure_name_exists(name) {
+
         return this.NLUModel.findOne({ name: name})
                             .select("name")
                             .lean()
