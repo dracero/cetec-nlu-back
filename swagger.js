@@ -194,7 +194,7 @@ export default
                 "tags": [
                     "Autenticación"
                 ],
-                "summary": "Autenticación con Google Passport",
+                "summary": "Se asigna un token al usuario",
                 "responses": {
                     "200": {
                         "description": "OK",
