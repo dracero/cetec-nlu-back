@@ -143,7 +143,8 @@ app.get(
         message: req.user.email + " ha iniciado sesión."
     });  
     }      
-    res.redirect('http://localhost:3000/')
+    res.redirect('http://localhost:3000/');
+    console.log(`-------> User Logged in`);
   }
 );
 

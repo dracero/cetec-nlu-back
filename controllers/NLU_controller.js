@@ -136,8 +136,8 @@ const logout = (req, res, next) => {
 
     req.logOut()
     res.clearCookie("token");
-    res.redirect("http://localhost:3000/")
-    console.log(`-------> User Logged out`)
+    res.redirect("http://localhost:3000/");
+    console.log(`-------> User Logged out`);
 }
 
 export {
