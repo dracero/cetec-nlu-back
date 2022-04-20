@@ -10,7 +10,13 @@ import mongoose from 'mongoose';
 const url = process.env.MONGO_URL;
 
 
-const connection = mongoose.connect(url, { useUnifiedTopology: true, useNewUrlParser: true});
+const connection = mongoose.connect(url, {
+
+    useNewUrlParser: true, 
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false
+});
 
 mongoose.connection.on('connected', ()=> {
     console.log('[Mongoose] - connected in:', url)

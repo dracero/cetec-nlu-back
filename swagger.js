@@ -172,6 +172,54 @@ export default
                     }
                 }
             }
+        },
+        "/auth/google": {
+            "get": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Autenticación con Google Passport",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                    },
+                    "500": {
+                        "description": "ERROR",
+                    }
+                }
+            }
+        },
+        "/auth/google/callback": {
+            "get": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Se asigna un token al usuario",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                    },
+                    "500": {
+                        "description": "ERROR",
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "get": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Cerrar la sesión del usuario",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                    },
+                    "500": {
+                        "description": "ERROR",
+                    }
+                }
+            }
         }
     },
     "definitions": {
