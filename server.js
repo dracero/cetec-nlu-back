@@ -26,6 +26,8 @@ import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
 import { Strategy as JWTstrategy } from 'passport-jwt';
 import { ExtractJwt } from 'passport-jwt';
 
+import whitelist from "./models/whitelist.js"
+
 // tuve que agregar esto para que no salte la warning de abajo:
 // DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead.
 mongoose.set('useCreateIndex', true);
@@ -131,7 +133,15 @@ app.get(
   '/auth/google/callback',
   passport.authenticate("google"),
   function (req, res) {
-    if (req.user) { 
+    let is_in_whitelist = whitelist.findOne({email: req.user.email})
+                                          .lean()
+                                          .then(result => {
+                                            console.log(result);
+                                            return true;
+                                          })
+                                          .catch(e => {return false});
+
+    if (req.user && is_in_whitelist) {
       const token = jwt.sign({id:req.user.email}, process.env.JWT_SECRET_KEY, {expiresIn: process.env.TOKEN_KEEP_ALIVE}); 
       res.cookie('token', token)  
     }      
