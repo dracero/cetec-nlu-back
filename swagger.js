@@ -23,7 +23,7 @@ export default
                 "tags": [
                     "NLUs"
                 ],
-                "summary": "Ver todos los NLUs del sistema",
+                "summary": "Obtener todos los NLUs del sistema",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -45,7 +45,7 @@ export default
                 "tags": [
                     "NLUs"
                 ],
-                "summary": "Ver un NLU específico",
+                "summary": "Obtener un NLU específico",
                 "parameters": [
 
                     {
@@ -71,7 +71,50 @@ export default
                 }
             }
         },
-
+        "/nlu_assembly": {
+            "get": {
+                "tags": [
+                    "NLUs"
+                ],
+                "summary": "Obtener 4 NLUs recibidos por parámetro",
+                "parameters": [
+                    {
+                        "name": "intent",
+                        "type": "string",
+                        "in": "query",
+                    },
+                    {
+                        "name": "entity",
+                        "type": "string",
+                        "in": "query",
+                    },
+                    {
+                        "name": "role",
+                        "type": "string",
+                        "in": "query",
+                    },
+                    {
+                        "name": "trait",
+                        "type": "string",
+                        "in": "query",
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/NLUAssembly"
+                        }
+                    },
+                    "500": {
+                        "description": "ERROR",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
         "/nlu_structure": {
             "post": {
                 "tags": [
@@ -113,7 +156,7 @@ export default
                 "tags": [
                     "NLUs"
                 ],
-                "summary": "Actualizar NLU",
+                "summary": "Actualizar un NLU",
                 "parameters": [
                     {
                         "name": "id",
@@ -240,6 +283,28 @@ export default
                 "id": {
                     "type": "string",
                     "uniqueItems": true
+                }
+            }
+        },
+        "NLUAssembly": {
+            "required": [
+                "intent",
+                "entity",
+                "role",
+                "trait"
+            ],
+            "properties": {
+                "intent": {
+                    "type": "string"
+                },
+                "entity": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "trait": {
+                    "type": "string"
                 }
             }
         },

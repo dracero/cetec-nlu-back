@@ -140,11 +140,67 @@ const logout = (req, res, next) => {
     console.log(`-------> User Logged out`);
 }
 
+const get_nlu_assembly = async (req, res, next) => {
+
+    logger.log({
+        level: 'info',
+        message:
+            req.user.email + " solicita el siguiente montaje: " + 
+            req.query.intent + " (intent), " +
+            req.query.entity + " (entity), " +
+            req.query.role + " (role), " +
+            req.query.trait + " (trait)."
+    });
+
+    try {
+        const nlu_structure_intent = await baseDeDatos.get_nlu_structure_name(req.query.intent);
+
+        if(nlu_structure_intent === null)
+            logger.log({ level: 'error', message: 'Error: no existe una estructura con el nombre: ' + req.query.intent + '.' });
+
+        const nlu_structure_entity = await baseDeDatos.get_nlu_structure_name(req.query.entity);
+
+        if(nlu_structure_entity === null)
+            logger.log({ level: 'error', message: 'Error: no existe una estructura con el nombre: ' + req.query.entity + '.' });
+
+        const nlu_structure_role = await baseDeDatos.get_nlu_structure_name(req.query.role);
+
+        if(nlu_structure_role === null)
+            logger.log({ level: 'error', message: 'Error: no existe una estructura con el nombre: ' + req.query.role + '.' });
+
+        const nlu_structure_trait = await baseDeDatos.get_nlu_structure_name(req.query.trait);
+
+        if(nlu_structure_trait === null)
+            logger.log({ level: 'error', message: 'Error: no existe una estructura con el nombre: ' + req.query.trait + '.' });
+
+        const nlu_assembly = {
+            intent: nlu_structure_intent,
+            entity: nlu_structure_entity,
+            role: nlu_structure_role,
+            trait: nlu_structure_trait
+        }
+
+        res.send(nlu_assembly);
+
+    } catch (error) {
+
+        logger.log({
+            level: 'error',
+            message: error.name
+        });
+
+        res.status(500).send(error);
+    }
+}
+
 export {
     get_nlu_structure,
-    get_nlu_structure_name,
     add_nlu_structure,
     put_nlu_structure,
     delete_nlu_structure,
-    logout
+    logout,
+    get_nlu_structure_name,
+    get_nlu_assembly
 }
+
+/* https://github.com/dracero/node-express-mongo */
