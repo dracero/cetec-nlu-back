@@ -104,10 +104,10 @@ const put_nlu_structure = async (req, res, next) => {
 
 const delete_nlu_structure = async (req, res, next) => {
 
-    logger.log({
+    /*logger.log({
         level: 'info',
         message: req.user + " solicita eliminar la estructura con id: " + req.params.id + "."
-    });
+    });*/
 
     try {
         const nlu_structure = await baseDeDatos.delete_nlu_structure(req.params.id);
