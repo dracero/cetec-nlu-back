@@ -10,9 +10,9 @@ export default
             "url": "https://opensource.org/licenses/MIT"
         }
     },
-    "host": "nlu-back.herokuapp.com",
+    "host": "localhost:8080",
     "basePath": "/",
-    "schemes": ["https"],
+    "schemes": ["http"],
     "consumes": ["application/json"],
     "produces": ["application/json"],
     "paths": {
