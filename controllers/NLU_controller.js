@@ -111,19 +111,19 @@ const delete_nlu_structure = async (req, res, next) => {
 
     try {
         const nlu_structure = await baseDeDatos.delete_nlu_structure(req.params.id);
-
+    
         if (!nlu_structure) {
-            res.status(404).send("No item found");
+            return res.status(404).send("No item found");
         }
-        res.status(200).send(nlu_structure);
+        return res.status(200).send(nlu_structure);
     } catch (error) {
-
+    
         logger.log({
             level: 'error',
             message: error.name
         });
-
-        res.status(500).send(error);
+    
+        return res.status(500).send(error);
     }
 }
 
