@@ -10,7 +10,7 @@ export default
             "url": "https://opensource.org/licenses/MIT"
         }
     },
-    "host": "https://cetec-nlu-back-production.up.railway.app",
+    "host": "cetec-nlu-back-production.up.railway.app",
     "basePath": "/",
     "schemes": ["https"],
     "consumes": ["application/json"],
